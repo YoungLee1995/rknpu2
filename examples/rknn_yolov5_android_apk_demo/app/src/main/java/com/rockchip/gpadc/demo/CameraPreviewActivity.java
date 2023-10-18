@@ -91,17 +91,17 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState); //配置 Android Activity 的生命周期，savedInstanceState 是一个 Bundle 对象，
+        // 用于存储和恢复 Activity 的状态信息
+        setContentView(R.layout.activity_main); //读取Android demo的界面配置
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); //在 Android 应用中设置窗口标志，以保持屏幕保持唤醒状态
 
         mFpsNum1 = (TextView) findViewById(R.id.fps_num1);
         mFpsNum2 = (TextView) findViewById(R.id.fps_num2);
         mFpsNum3 = (TextView) findViewById(R.id.fps_num3);
-        mFpsNum4 = (TextView) findViewById(R.id.fps_num4);
-        mTrackResultView = (ImageView) findViewById(R.id.canvasView);
-
+        mFpsNum4 = (TextView) findViewById(R.id.fps_num4); //将布局文件中定义的 TextView 控件与 Java 代码中的成员变量关联起来，以便在代码中对这些控件进行操作和显示数据。
+        mTrackResultView = (ImageView) findViewById(R.id.canvasView); //引用布局文件中的 ImageView 控件，以便通过代码对该控件进行操作，例如设置图片、缩放方式等等
         fileDirPath = getCacheDir().getAbsolutePath();
 
         platform = getPlatform();
@@ -117,11 +117,12 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
             Toast toast = Toast.makeText(this, "Can not get platform use RK3588 instead.", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
-            createFile(mModelName, R.raw.yolov5s_rk3588);
+            createFile(mModelName, R.raw.yolov5s_rk3588); //非RK系统默认使用RK3588框架
         }
 
         try {
-            mInferenceResult.init(getAssets());
+            mInferenceResult.init(getAssets()); //初始化 mInferenceResult。包括加载模型等。
+            // getAssets() 是一个用于获取应用程序的 assets 目录的方法，通常用于访问应用程序打包在内部的资源文件，如模型文件、配置文件等
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -158,14 +159,17 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
     }
 
     private boolean createPreviewView() {
-        mSurfaceView = findViewById(R.id.surfaceViewCamera1);
+        //创建预览视图。用于相机预览。
+        mSurfaceView = findViewById(R.id.surfaceViewCamera1); //通过视图的资源 ID 获取一个 SurfaceView 控件，该控件通常用于显示相机预览图像
         mSurfaceHolder = mSurfaceView.getHolder();
-//        mSurfaceView.setZOrderMediaOverlay(true);
+        //mSurfaceView.setZOrderMediaOverlay(true);
 
-        mSurfaceTexture = new SurfaceTexture(MAGIC_TEXTURE_ID);
+        mSurfaceTexture = new SurfaceTexture(MAGIC_TEXTURE_ID); //用于将相机预览数据渲染到屏幕上
 
-        mSurfaceHolderCallback = new TSurfaceHolderCallback();
-        mSurfaceHolder.addCallback(mSurfaceHolderCallback);
+        mSurfaceHolderCallback = new TSurfaceHolderCallback();//创建一个 TSurfaceHolderCallback 的实例，
+        // 这是自定义的 SurfaceHolder.Callback 的实现。它用于监听 SurfaceView 的状态变化，例如创建、改变和销毁
+        mSurfaceHolder.addCallback(mSurfaceHolderCallback);//将自定义的 SurfaceHolderCallback 添加到 SurfaceHolder 中，
+        // 以便在视图状态发生变化时调用相应的回调方法。
 
         return true;
     }
