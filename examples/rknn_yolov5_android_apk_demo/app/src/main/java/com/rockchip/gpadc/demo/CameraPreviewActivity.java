@@ -327,8 +327,8 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
 
         Log.w(TAG, "Use preview Size = " + CAMERA_PREVIEW_WIDTH + "x" + CAMERA_PREVIEW_HEIGHT);
 
-        parameters.setPreviewSize(CAMERA_PREVIEW_WIDTH, CAMERA_PREVIEW_HEIGHT);
-
+        //parameters.setPreviewSize(CAMERA_PREVIEW_WIDTH, CAMERA_PREVIEW_HEIGHT);
+        parameters.setPreviewSize(640, 480);
         if (parameters.isZoomSupported()) {
             parameters.setZoom(0);
         }
